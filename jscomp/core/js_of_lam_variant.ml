@@ -40,8 +40,8 @@ let eval (arg : J.expression) (dispatches : (int * string) list ) : E.t =
     E.of_block
       [(S.int_switch arg
       (Ext_list.map (fun (i,r) -> 
-              {J.case = i ; 
-               body = [S.return_stmt (E.str r)],
+              {J.switch_case = i ; 
+               switch_body = [S.return_stmt (E.str r)],
                       false (* FIXME: if true, still print break*)
               }) dispatches))]
 
@@ -59,8 +59,8 @@ let eval_as_event (arg : J.expression) (dispatches : (int * string) list ) =
       (E.ocaml_fun [event]
       [(S.int_switch arg
       (Ext_list.map (fun (i,r) -> 
-              {J.case = i ; 
-               body = [S.return_stmt (E.index (E.var event) 0l)],
+              {J.switch_case = i ; 
+               switch_body = [S.return_stmt (E.index (E.var event) 0l)],
                       false (* FIXME: if true, still print break*)
               }) dispatches))]
       , (* TODO: improve, one dispatch later, 
@@ -70,8 +70,8 @@ let eval_as_event (arg : J.expression) (dispatches : (int * string) list ) =
       E.ocaml_fun [event]
       [(S.int_switch arg
       (Ext_list.map (fun (i,r) -> 
-              {J.case = i ; 
-               body = [S.return_stmt (E.index (E.var event) 1l)],
+              {J.switch_case = i ; 
+               switch_body = [S.return_stmt (E.index (E.var event) 1l)],
                       false (* FIXME: if true, still print break*)
               }) dispatches))]
       )
@@ -86,8 +86,8 @@ let eval_as_int (arg : J.expression) (dispatches : (int * int) list ) : E.t  =
     E.of_block
       [(S.int_switch arg
       (Ext_list.map (fun (i,r) -> 
-              {J.case = i ; 
-               body = [S.return_stmt (E.int (Int32.of_int  r))],
+              {J.switch_case = i ; 
+               switch_body = [S.return_stmt (E.int (Int32.of_int  r))],
                       false (* FIXME: if true, still print break*)
               }) dispatches))]
 
